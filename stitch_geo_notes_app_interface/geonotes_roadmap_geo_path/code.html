@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Jalur Progres Catatan - Screen 3</title>
+<!-- Tailwind CSS CDN with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Custom Configuration -->
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            app: {
+              bg: '#4b3db2',
+              bgDark: '#392d96',
+              path: '#6152cf',
+              pathShadow: '#352787',
+              orangeStart: '#ff7c33',
+              orangeEnd: '#ff5400',
+              badgeBg: 'rgba(255, 255, 255, 0.22)',
+            }
+          },
+          boxShadow: {
+            'node-3d': '0 8px 12px -2px rgba(22, 12, 69, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.8), inset 0 -4px 6px rgba(0, 0, 0, 0.15)',
+            'node-orange': '0 8px 16px -2px rgba(255, 84, 0, 0.5), inset 0 2px 3px rgba(255, 255, 255, 0.6), inset 0 -4px 6px rgba(180, 50, 0, 0.3)',
+            'banner-shadow': '0 12px 24px -4px rgba(224, 70, 0, 0.35)',
+            'tooltip': '0 4px 10px rgba(0,0,0,0.18)'
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom styles for layout, curves, and 3D effects -->
+<style data-purpose="custom-layout">
+    body {
+      background-color: #e5e0f7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Device frame wrapper for realistic iOS mobile viewport */
+    .iphone-frame {
+      width: 100%;
+      max-width: 390px;
+      min-height: 844px;
+      height: 100vh;
+      max-height: 844px;
+      background: radial-gradient(circle at 80% 20%, #5847ce 0%, #3e30a2 100%);
+      box-shadow: 0 25px 60px -15px rgba(53, 39, 135, 0.5);
+      border-radius: 46px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* iOS home indicator */
+    .home-indicator {
+      width: 134px;
+      height: 5px;
+      background-color: rgba(255, 255, 255, 0.6);
+      border-radius: 100px;
+      margin: 8px auto 6px auto;
+    }
+
+    /* Winding Road Styling */
+    .road-container {
+      position: absolute;
+      top: 290px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Subtle pulsing effect for the active start node */
+    @keyframes pulse-glow {
+      0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 0 rgba(255, 124, 51, 0));
+      }
+      50% {
+        transform: scale(1.04);
+        filter: drop-shadow(0 0 10px rgba(255, 124, 51, 0.7));
+      }
+    }
+
+    .pulse-start {
+      animation: pulse-glow 2.5s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-0 sm:p-4 select-none">
+<!-- BEGIN: PhoneContainer -->
+<div class="iphone-frame" data-purpose="mobile-screen-container">
+<!-- BEGIN: iOSStatusBar -->
+<header class="w-full pt-3 px-7 flex justify-between items-center text-white text-xs font-semibold z-30" data-purpose="status-bar">
+<!-- Time Display -->
+<span>9:40</span>
+<!-- Dynamic Island / Speaker notch placeholder space -->
+<div class="w-20 h-4 bg-transparent"></div>
+<!-- Network and Battery Indicators -->
+<div class="flex items-center space-x-1.5">
+<svg class="w-4 h-3 fill-current" viewbox="0 0 16 12">
+<path d="M1 9.5h2v2H1v-2zm3.5-3h2v5h-2v-5zm3.5-3h2v8h-2v-8zm3.5-3h2v11h-2v-11z"></path>
+</svg>
+<svg class="w-3.5 h-3 fill-current" viewbox="0 0 16 12">
+<path d="M8 2.5c2.8 0 5.3 1.1 7.2 2.9l-1.5 1.5C12.3 5.5 10.3 4.6 8 4.6s-4.3.9-5.7 2.3L.8 5.4C2.7 3.6 5.2 2.5 8 2.5zm0 4.1c1.7 0 3.2.7 4.3 1.8L8 12.7 3.7 8.4C4.8 7.3 6.3 6.6 8 6.6z"></path>
+</svg>
+<div class="w-5 h-2.5 border border-white/90 rounded-sm p-0.5 flex items-center">
+<div class="h-full w-full bg-white rounded-2xs"></div>
+</div>
+</div>
+</header>
+<!-- END: iOSStatusBar -->
+<!-- BEGIN: NavigationBar -->
+<nav class="w-full px-5 pt-3 pb-2 flex items-center justify-between text-white z-20" data-purpose="app-header-nav">
+<!-- Back Button -->
+<button aria-label="Kembali" class="w-10 h-10 rounded-full bg-white/95 flex items-center justify-center text-slate-800 shadow-sm active:scale-95 transition-transform" data-purpose="back-button">
+<svg class="w-5 h-5 ml-[-2px]" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24">
+<path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- Screen Title -->
+<h1 class="text-base font-bold tracking-tight text-white/95" data-purpose="screen-title">
+        Jalur Progres Catatan
+      </h1>
+<!-- More Actions Button -->
+<button aria-label="Pilihan Lain" class="w-10 h-10 rounded-full bg-white/95 flex items-center justify-center text-slate-800 shadow-sm active:scale-95 transition-transform" data-purpose="more-menu-button">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20">
+<path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path>
+</svg>
+</button>
+</nav>
+<!-- END: NavigationBar -->
+<!-- BEGIN: MainContent -->
+<main class="relative flex-1 flex flex-col px-5 pt-3 overflow-hidden" data-purpose="roadmap-viewport">
+<!-- BEGIN: HeaderBannerCard -->
+<section class="w-full rounded-3xl bg-gradient-to-br from-[#ff8237] via-[#ff6a18] to-[#ff4e00] p-5 text-white shadow-banner-shadow relative z-20" data-purpose="summary-card">
+<!-- Main Card Title -->
+<h2 class="text-lg font-bold leading-tight drop-shadow-sm mb-3">
+          Peta Eksplorasi Catatan Pintar
+        </h2>
+<!-- Tags and Badges -->
+<div class="flex items-center space-x-2 mb-3">
+<span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[11px] font-semibold tracking-wide">
+            Geo Timeline
+          </span>
+<span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[11px] font-semibold tracking-wide">
+            Generated by AI
+          </span>
+</div>
+<!-- Creation Date Footer with Calendar Icon -->
+<div class="flex items-center text-xs font-normal text-white/90">
+<svg class="w-3.5 h-3.5 mr-1.5 opacity-90" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Dibuat 12 Jan 2026</span>
+</div>
+</section>
+<!-- END: HeaderBannerCard -->
+<!-- BEGIN: WindingRoadwayCanvasBackground -->
+<!-- Curving 3D Pathway rendered in SVG matching Screen 3 curve structure -->
+<div aria-hidden="true" class="road-container" data-purpose="vector-curved-road">
+<svg class="w-full h-full" fill="none" preserveaspectratio="none" viewbox="0 0 350 490">
+<defs>
+<!-- Pathway Gradient -->
+<lineargradient id="roadGrad" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#7664e8"></stop>
+<stop offset="45%" stop-color="#604ecc"></stop>
+<stop offset="100%" stop-color="#4d3cb8"></stop>
+</lineargradient>
+<!-- Ambient Pathway Depth Drop-shadow -->
+<filter filterunits="userSpaceOnUse" height="115%" id="roadShadow" width="130%" x="-10%" y="-5%">
+<fedropshadow dx="3" dy="12" flood-color="#211559" flood-opacity="0.45" stddeviation="9"></fedropshadow>
+</filter>
+</defs>
+<!-- Shadow Base Path -->
+<path d="M 330 0
+                   C 320 25, 260 40, 240 70
+                   C 200 125, 170 115, 140 180
+                   C 115 235, 145 295, 205 340
+                   C 255 375, 280 430, 280 490
+                   L 360 490
+                   C 360 420, 335 345, 275 295
+                   C 225 255, 205 220, 220 180
+                   C 240 135, 335 90, 360 20
+                   Z" fill="#271b69" opacity="0.6"></path>
+<!-- Main Curving 3D Road Body -->
+<path d="M 320 0
+                   C 310 20, 245 40, 220 70
+                   C 170 130, 140 120, 120 185
+                   C 98 245, 135 295, 185 340
+                   C 240 380, 265 425, 270 490
+                   L 350 490
+                   C 345 410, 310 350, 255 295
+                   C 210 250, 180 220, 195 180
+                   C 220 125, 315 75, 345 0
+                   Z" fill="url(#roadGrad)" filter="url(#roadShadow)"></path>
+<!-- Road highlight edge contour line -->
+<path d="M 320 0
+                   C 310 20, 245 40, 220 70
+                   C 170 130, 140 120, 120 185
+                   C 98 245, 135 295, 185 340
+                   C 240 380, 265 425, 270 490" stroke="rgba(255, 255, 255, 0.25)" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+</div>
+<!-- END: WindingRoadwayCanvasBackground -->
+<!-- BEGIN: MilestoneRoadmapNodes -->
+<section class="relative flex-1 z-10 w-full" data-purpose="milestones-interactive-layer">
+<!-- Node 1: Start Milestone (Active / Top) -->
+<!-- Progress 36% - Catatan 1 -->
+<div class="absolute top-[22px] right-[58px] flex items-center z-30" data-purpose="milestone-node-start">
+<!-- Floating Interactive Node Button -->
+<button aria-label="Mulai Catatan 1: Status 36%" class="relative w-[54px] h-[54px] rounded-full bg-gradient-to-tr from-[#ff5400] to-[#ff8c3b] shadow-node-orange flex items-center justify-center text-white border-2 border-white/60 pulse-start">
+<!-- Graduation Cap Icon -->
+<svg class="w-6 h-6 fill-current drop-shadow-sm" viewbox="0 0 24 24">
+<path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"></path>
+</svg>
+<!-- Badge 36% overlay -->
+<span class="absolute -bottom-1.5 -left-1 px-1.5 py-0.2 bg-white text-[#ff5400] font-extrabold text-[9px] rounded-full shadow border border-orange-200">
+              36%
+            </span>
+</button>
+<!-- Floating Tooltip 'TO START' / 'LANJUTKAN' -->
+<div class="ml-2.5 bg-white text-[#ff5400] font-black text-[11px] tracking-wider py-1 px-3 rounded-lg shadow-tooltip uppercase flex items-center border border-white/80 animate-bounce duration-1000" data-purpose="tooltip-label">
+<span>TO START</span>
+<span class="ml-1 text-[9px] text-[#ff7c33]">✦</span>
+</div>
+</div>
+<!-- Node 2: Milestone (Catatan 2 - 63%) -->
+<div class="absolute top-[88px] left-[78px] flex flex-col items-center z-20" data-purpose="milestone-node-2">
+<button aria-label="Catatan 2: Status 63%" class="w-[50px] h-[50px] rounded-full bg-[#f3f1fa] shadow-node-3d flex items-center justify-center text-[#5547b6] hover:scale-105 transition-transform">
+<!-- Double Document/Notes Icon -->
+<svg class="w-5 h-5 fill-current opacity-85" viewbox="0 0 24 24">
+<path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"></path>
+</svg>
+</button>
+<!-- Progress pill label -->
+<span class="mt-1 px-2 py-0.5 rounded-full bg-app-bgDark/80 text-[10px] font-bold text-white/90 shadow-sm border border-white/10">
+            63%
+          </span>
+</div>
+<!-- Node 3: Milestone (Catatan 3 - 13%) -->
+<div class="absolute top-[162px] left-[134px] flex flex-col items-center z-20" data-purpose="milestone-node-3">
+<button aria-label="Catatan 3: Status 13%" class="w-[50px] h-[50px] rounded-full bg-[#f3f1fa] shadow-node-3d flex items-center justify-center text-[#5547b6] hover:scale-105 transition-transform">
+<!-- Dumbbell / Practice Exercise Icon -->
+<svg class="w-5 h-5 fill-current opacity-85" viewbox="0 0 24 24">
+<path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"></path>
+</svg>
+</button>
+<span class="mt-1 px-2 py-0.5 rounded-full bg-app-bgDark/80 text-[10px] font-bold text-white/90 shadow-sm border border-white/10">
+            13%
+          </span>
+</div>
+<!-- Node 4: Milestone (Catatan 4 - 19%) -->
+<div class="absolute top-[238px] left-[118px] flex flex-col items-center z-20" data-purpose="milestone-node-4">
+<button aria-label="Catatan 4: Status 19%" class="w-[52px] h-[52px] rounded-full bg-[#f3f1fa] shadow-node-3d flex items-center justify-center text-[#5547b6] hover:scale-105 transition-transform">
+<!-- Graduation Cap Icon -->
+<svg class="w-5 h-5 fill-current opacity-85" viewbox="0 0 24 24">
+<path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"></path>
+</svg>
+</button>
+<span class="mt-1 px-2 py-0.5 rounded-full bg-app-bgDark/80 text-[10px] font-bold text-white/90 shadow-sm border border-white/10">
+            19%
+          </span>
+</div>
+<!-- Node 5: Additional lower branch milestone node -->
+<div class="absolute top-[320px] left-[132px] flex items-center z-20" data-purpose="milestone-node-5">
+<button aria-label="Milestone 5" class="w-[50px] h-[50px] rounded-full bg-[#f3f1fa] shadow-node-3d flex items-center justify-center text-[#5547b6] opacity-90 hover:scale-105 transition-transform">
+<!-- Bookmark/Notes Icon -->
+<svg class="w-5 h-5 fill-current opacity-80" viewbox="0 0 24 24">
+<path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"></path>
+</svg>
+</button>
+</div>
+<!-- Node 6: Foot of the road ending milestone -->
+<div class="absolute bottom-[20px] right-[40px] flex items-center z-20" data-purpose="milestone-node-6">
+<button aria-label="Milestone 6" class="w-[50px] h-[50px] rounded-full bg-[#f3f1fa] shadow-node-3d flex items-center justify-center text-[#5547b6] opacity-90 hover:scale-105 transition-transform">
+<!-- Dumbbell Exercise Icon -->
+<svg class="w-5 h-5 fill-current opacity-80" viewbox="0 0 24 24">
+<path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"></path>
+</svg>
+</button>
+</div>
+</section>
+<!-- END: MilestoneRoadmapNodes -->
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: iOSHomeIndicator -->
+<footer class="w-full flex flex-col items-center justify-center pb-2 z-30 pointer-events-none" data-purpose="home-indicator-container">
+<div class="home-indicator"></div>
+</footer>
+<!-- END: iOSHomeIndicator -->
+</div>
+<!-- END: PhoneContainer -->
+</body></html>

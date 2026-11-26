@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Detail Catatan &amp; Progres</title>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              purple: '#5534DA',
+              deepPurple: '#3B1EAE',
+              softPurple: '#6C48F0',
+              accentOrange: '#FF7324',
+              lightBg: '#F3F0FF',
+              cardBg: '#FFFFFF'
+            }
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif']
+          },
+          boxShadow: {
+            'card': '0 12px 36px -6px rgba(45, 14, 116, 0.16)',
+            'btn-shadow': '0 4px 14px rgba(255, 115, 36, 0.25)'
+          }
+        }
+      }
+    }
+  </script>
+<!-- BEGIN: Custom Styles -->
+<style data-purpose="app-shell">
+    /* iOS Frame and Scroll Lock Simulation */
+    body {
+      background-color: #ECEAF5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    .mobile-frame {
+      width: 100%;
+      max-width: 412px;
+      min-height: 870px;
+      height: 100vh;
+      max-height: 890px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 44px;
+      box-shadow: 0 25px 60px -15px rgba(35, 11, 89, 0.4);
+      background: linear-gradient(180deg, #5A35E4 0%, #441EC9 45%, #3515A8 100%);
+    }
+
+    /* Subtle city skyline backdrop silhouette matching reference */
+    .city-backdrop {
+      position: absolute;
+      top: 55px;
+      left: 0;
+      right: 0;
+      height: 240px;
+      opacity: 0.12;
+      background-repeat: repeat-x;
+      background-position: bottom center;
+      pointer-events: none;
+    }
+  </style>
+<style data-purpose="mascot-animations">
+    /* Subtle float effect for reading mascot */
+    @keyframes gentle-sway {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+    .mascot-container {
+      animation: gentle-sway 4s ease-in-out infinite;
+    }
+  </style>
+<!-- END: Custom Styles -->
+</head>
+<body>
+<!-- BEGIN: MobileDeviceFrame -->
+<div class="mobile-frame flex flex-col justify-between select-none">
+<!-- Top Decorative City Skyline Vector Pattern -->
+<div class="city-backdrop" data-purpose="background-decoration">
+<svg fill="white" height="100%" preserveaspectratio="none" viewbox="0 0 400 160" width="100%">
+<rect height="110" rx="3" width="30" x="20" y="50"></rect>
+<rect fill="#4B27CE" height="6" width="5" x="25" y="60"></rect>
+<rect fill="#4B27CE" height="6" width="5" x="35" y="60"></rect>
+<rect fill="#4B27CE" height="6" width="5" x="25" y="75"></rect>
+<rect fill="#4B27CE" height="6" width="5" x="35" y="75"></rect>
+<rect height="135" rx="4" width="40" x="65" y="25"></rect>
+<rect fill="#4B27CE" height="8" width="6" x="73" y="35"></rect>
+<rect fill="#4B27CE" height="8" width="6" x="85" y="35"></rect>
+<rect fill="#4B27CE" height="8" width="6" x="73" y="50"></rect>
+<rect fill="#4B27CE" height="8" width="6" x="85" y="50"></rect>
+<rect fill="#4B27CE" height="8" width="6" x="73" y="65"></rect>
+<rect fill="#4B27CE" height="8" width="6" x="85" y="65"></rect>
+<rect height="90" rx="3" width="35" x="120" y="70"></rect>
+<rect height="125" rx="4" width="48" x="170" y="35"></rect>
+<rect fill="#4B27CE" height="8" width="6" x="180" y="48"></rect>
+<rect fill="#4B27CE" height="8" width="6" x="195" y="48"></rect>
+<rect fill="#4B27CE" height="8" width="6" x="180" y="65"></rect>
+<rect fill="#4B27CE" height="8" width="6" x="195" y="65"></rect>
+<rect height="100" rx="3" width="38" x="235" y="60"></rect>
+<rect height="130" rx="4" width="44" x="290" y="30"></rect>
+<rect fill="#4B27CE" height="8" width="7" x="300" y="45"></rect>
+<rect fill="#4B27CE" height="8" width="7" x="315" y="45"></rect>
+<rect height="95" rx="3" width="35" x="350" y="65"></rect>
+</svg>
+</div>
+<!-- BEGIN: TopBarSection -->
+<header class="relative z-20 pt-3 px-6" data-purpose="top-navigation-bar">
+<!-- iOS Status Bar Placeholder -->
+<div class="flex justify-between items-center text-white/90 text-xs font-semibold tracking-tight pb-3">
+<span>9:40</span>
+<div class="flex items-center space-x-2">
+<!-- Signal Icon -->
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24">
+<path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L12 22l7.03-4.39C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9z" opacity="0.3"></path>
+<path d="M12 6a6 6 0 00-6 6c0 1.48.54 2.84 1.44 3.91L12 19.5l4.56-3.59A5.96 5.96 0 0018 12a6 6 0 00-6-6z"></path>
+</svg>
+<!-- Wifi Icon -->
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24">
+<path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98A17.9 17.9 0 0012 4z"></path>
+</svg>
+<!-- Battery Icon -->
+<div class="w-5 h-2.5 border border-white/80 rounded-sm p-0.5 flex items-center">
+<div class="h-full w-3.5 bg-white rounded-2xs"></div>
+</div>
+</div>
+</div>
+<!-- Main Navigation Header -->
+<nav class="flex items-center justify-between mt-2">
+<!-- Back Button Circular -->
+<button aria-label="Kembali" class="w-10 h-10 rounded-full bg-white/95 flex items-center justify-center text-slate-700 shadow-sm active:scale-95 transition-transform" type="button">
+<svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24">
+<path d="M15 18l-6-6 6-6"></path>
+</svg>
+</button>
+<!-- View Title -->
+<div class="text-center">
+<h1 class="text-white text-lg font-bold tracking-normal drop-shadow-sm">Detail Catatan &amp; Progres</h1>
+<p class="text-white/70 text-xs font-normal">Geo #2 • Wilayah &amp; Ruang</p>
+</div>
+<!-- More Options Menu Button -->
+<button aria-label="Pilihan lainnya" class="w-10 h-10 rounded-full bg-white/95 flex items-center justify-center text-slate-700 shadow-sm active:scale-95 transition-transform" type="button">
+<svg class="w-5 h-5 text-gray-700" fill="currentColor" viewbox="0 0 24 24">
+<circle cx="6" cy="12" r="1.75"></circle>
+<circle cx="12" cy="12" r="1.75"></circle>
+<circle cx="18" cy="12" r="1.75"></circle>
+</svg>
+</button>
+</nav>
+</header>
+<!-- END: TopBarSection -->
+<!-- BEGIN: MainContentArea -->
+<main class="relative z-10 flex-1 flex flex-col justify-end px-5 pb-8" data-purpose="subject-detail-view">
+<!-- Mascot and Progress Section -->
+<div class="relative w-full flex flex-col items-center">
+<!-- Mascot Illustration Perched Exactly Above Card -->
+<div class="mascot-container relative z-20 -mb-6 flex justify-center items-center pointer-events-none" data-purpose="cat-study-mascot">
+<div class="w-36 h-36 relative">
+<svg class="w-full h-full drop-shadow-xl" fill="none" viewbox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+<!-- Left Cat Ear Outer -->
+<path d="M38 52 C36 34 48 18 64 28 C64 28 45 42 38 52 Z" fill="#F47A22" stroke="#2B1367" stroke-linejoin="round" stroke-width="3"></path>
+<!-- Left Ear Inner -->
+<path d="M44 48 C42 36 50 26 59 33 C58 35 48 43 44 48 Z" fill="#F9A464"></path>
+<!-- Right Cat Ear Outer -->
+<path d="M122 52 C124 34 112 18 96 28 C96 28 115 42 122 52 Z" fill="#F47A22" stroke="#2B1367" stroke-linejoin="round" stroke-width="3"></path>
+<!-- Right Ear Inner -->
+<path d="M116 48 C118 36 110 26 101 33 C102 35 112 43 116 48 Z" fill="#F9A464"></path>
+<!-- Cat Head Main Base -->
+<ellipse cx="80" cy="62" fill="#FF8A27" rx="46" ry="40" stroke="#2B1367" stroke-width="3.5"></ellipse>
+<!-- White Cheeks/Face Mask -->
+<path d="M48 64 C48 78 62 88 80 88 C98 88 112 78 112 64 C112 60 102 58 80 58 C58 58 48 60 48 64 Z" fill="#FFFFFF"></path>
+<!-- Forehead fur markings -->
+<path d="M76 25 L80 34 L84 25" stroke="#E66500" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+<!-- Eyeglasses Frame -->
+<!-- Left Rim -->
+<circle cx="63" cy="61" fill="#FFFFFF" r="14.5" stroke="#1D2A78" stroke-width="3"></circle>
+<!-- Right Rim -->
+<circle cx="97" cy="61" fill="#FFFFFF" r="14.5" stroke="#1D2A78" stroke-width="3"></circle>
+<!-- Glasses Bridge -->
+<path d="M77.5 61 L82.5 61" stroke="#1D2A78" stroke-linecap="round" stroke-width="3.5"></path>
+<!-- Glasses side temples -->
+<path d="M48 60 L42 59" stroke="#1D2A78" stroke-linecap="round" stroke-width="3"></path>
+<path d="M112 60 L118 59" stroke="#1D2A78" stroke-linecap="round" stroke-width="3"></path>
+<!-- Big Cute Eyes (Looking downward to book) -->
+<circle cx="65" cy="63" fill="#1C1844" r="6"></circle>
+<circle cx="95" cy="63" fill="#1C1844" r="6"></circle>
+<circle cx="63.5" cy="61" fill="#FFFFFF" r="2"></circle>
+<circle cx="93.5" cy="61" fill="#FFFFFF" r="2"></circle>
+<!-- Small Cute Nose & Smile -->
+<path d="M78 69 Q80 71 82 69" fill="none" stroke="#E66000" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M76 72 Q80 75 84 72" fill="none" stroke="#2B1367" stroke-linecap="round" stroke-width="2"></path>
+<!-- Blue Open Book Mascot is Holding -->
+<g transform="translate(0, 16)">
+<!-- Open Book Pages Left & Right -->
+<path d="M44 88 C58 85 76 89 80 94 C84 89 102 85 116 88 L113 118 C99 115 84 118 80 123 C76 118 61 115 47 118 Z" fill="#0C84EB" stroke="#17316E" stroke-width="3"></path>
+<!-- Inner Page Highlights -->
+<path d="M47 91 C60 88 75 91 78 96 L76 119 C73 115 59 113 49 115 Z" fill="#299CFF"></path>
+<path d="M113 91 C100 88 85 91 82 96 L84 119 C87 115 101 113 111 115 Z" fill="#54ADFF"></path>
+<!-- Center Book Spine Bone / Marker icon -->
+<ellipse cx="80" cy="107" fill="#FFFFFF" rx="3.5" ry="5.5"></ellipse>
+<circle cx="78" cy="102" fill="#FFFFFF" r="1.5"></circle>
+<circle cx="82" cy="102" fill="#FFFFFF" r="1.5"></circle>
+<circle cx="78" cy="112" fill="#FFFFFF" r="1.5"></circle>
+<circle cx="82" cy="112" fill="#FFFFFF" r="1.5"></circle>
+</g>
+<!-- Cute Paws Gripping Edge of Progress Card -->
+<!-- Left Paw -->
+<g transform="translate(39, 107)">
+<ellipse cx="14" cy="14" fill="#FFFFFF" rx="10" ry="8" stroke="#2B1367" stroke-width="2.8"></ellipse>
+<circle cx="14" cy="16" fill="#FF8383" r="3.2"></circle>
+<circle cx="9" cy="12" fill="#FF8383" r="1.8"></circle>
+<circle cx="14" cy="10" fill="#FF8383" r="1.8"></circle>
+<circle cx="19" cy="12" fill="#FF8383" r="1.8"></circle>
+</g>
+<!-- Right Paw -->
+<g transform="translate(93, 107)">
+<ellipse cx="14" cy="14" fill="#FFFFFF" rx="10" ry="8" stroke="#2B1367" stroke-width="2.8"></ellipse>
+<circle cx="14" cy="16" fill="#FF8383" r="3.2"></circle>
+<circle cx="9" cy="12" fill="#FF8383" r="1.8"></circle>
+<circle cx="14" cy="10" fill="#FF8383" r="1.8"></circle>
+<circle cx="19" cy="12" fill="#FF8383" r="1.8"></circle>
+</g>
+</svg>
+</div>
+</div>
+<!-- Upper Floating Progress Bar Card with 63% Status -->
+<section class="w-full bg-white/95 backdrop-blur-md rounded-2xl pt-6 pb-4 px-5 shadow-lg border border-white/40 mb-3.5 z-10" data-purpose="progress-status-container">
+<div class="flex justify-between items-center mb-2.5">
+<span class="text-sm font-semibold text-gray-800 tracking-tight">Progres Belajar</span>
+<span class="text-sm font-bold text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-100">63%</span>
+</div>
+<!-- Rounded Status Bar (63% filled) -->
+<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="63" class="w-full h-3 bg-gray-200/90 rounded-full overflow-hidden p-0.5" role="progressbar">
+<div class="h-full bg-gradient-to-r from-orange-400 to-amber-500 rounded-full transition-all duration-700 ease-out" style="width: 63%;"></div>
+</div>
+</section>
+<!-- BEGIN: EmptyStateDetailCard -->
+<!-- Main White Card Container matching screen 2 reference -->
+<article class="w-full bg-white rounded-3xl p-6 shadow-card flex flex-col items-center text-center relative z-10 min-h-[310px] justify-between" data-purpose="notes-card-module">
+<div class="flex flex-col items-center w-full pt-3">
+<!-- Circular Icon Badge with glowing background -->
+<div class="w-16 h-16 rounded-full bg-blue-50/90 flex items-center justify-center mb-4 ring-8 ring-blue-50/40" data-purpose="card-illustration-icon">
+<svg class="w-8 h-8 text-blue-500" fill="none" viewbox="0 0 48 48">
+<!-- Book and lightbulb badge mimicking the icon on middle screen -->
+<path d="M10 34C10 30 16 29 24 29C32 29 38 30 38 34V39C38 40.1 37.1 41 36 41H12C10.9 41 10 40.1 10 39V34Z" fill="#D8ECFF"></path>
+<path d="M24 10V28" stroke="#1D4ED8" stroke-linecap="round" stroke-width="3"></path>
+<path d="M12 28C16.5 25.5 20.8 26.5 24 28C27.2 26.5 31.5 25.5 36 28V14C31.5 12 27.2 12.5 24 14C20.8 12.5 16.5 12 12 14V28Z" fill="#60A5FA" stroke="#1E40AF" stroke-linejoin="round" stroke-width="2.5"></path>
+<!-- Little glowing lightbulb idea -->
+<circle cx="24" cy="9" fill="#FBBF24" r="4"></circle>
+<path d="M21 5L19 3M27 5L29 3M24 3V1" stroke="#F59E0B" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+</div>
+<!-- Title: Kartu Catatan Belum Ada / Detail Catatan Geo #2 -->
+<h2 class="text-gray-900 font-bold text-lg leading-snug tracking-tight mb-2">
+              Kartu Catatan Belum Ada
+            </h2>
+<!-- Subtitle Description -->
+<p class="text-xs text-gray-500 max-w-[240px] leading-relaxed mb-6 font-normal">
+              Mulai kelola poin catatan dan koordinat lokasi disini. Buat kartu catatan pertamamu!
+            </p>
+</div>
+<!-- Dashed Add Card Action Button -->
+<button aria-label="Tambah Kartu Catatan" class="w-full max-w-xs py-3.5 px-4 border-2 border-dashed border-orange-400 bg-orange-50/40 hover:bg-orange-50/90 active:scale-[0.98] transition-all rounded-2xl flex items-center justify-center space-x-2 group" type="button">
+<!-- Plus Icon -->
+<svg class="w-4 h-4 text-orange-500 stroke-[2.5]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="text-sm font-semibold text-orange-600 tracking-tight">+ Tambah Kartu Catatan</span>
+</button>
+</article>
+<!-- END: EmptyStateDetailCard -->
+</div>
+</main>
+<!-- END: MainContentArea -->
+<!-- BEGIN: iOSHomeIndicator -->
+<!-- Native iOS Bottom Home Indicator Bar -->
+<footer class="w-full pb-3 flex justify-center items-center pointer-events-none" data-purpose="home-indicator-container">
+<div class="w-32 h-1 bg-white/40 rounded-full"></div>
+</footer>
+<!-- END: iOSHomeIndicator -->
+</div>
+<!-- END: MobileDeviceFrame -->
+</body></html>
